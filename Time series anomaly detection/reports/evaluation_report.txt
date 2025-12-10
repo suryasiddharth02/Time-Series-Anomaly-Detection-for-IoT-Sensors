@@ -1,0 +1,40 @@
+================================================================================
+ANOMALY DETECTION EVALUATION REPORT
+================================================================================
+
+
+MODEL COMPARISON
+----------------------------------------
+              Model  precision  recall   f1  accuracy  false_positive_rate  false_negative_rate   roc_auc  average_precision roc_auc_source  f1_rank  roc_auc_rank
+0  isolation_forest        0.0     0.0  0.0    0.9995               0.0005                    0  0.966379                0.0   training_set      1.5           1.0
+1  lstm_autoencoder        0.0     0.0  0.0    0.9825               0.0175                    0  0.381254                0.0   training_set      1.5           2.0
+
+
+
+ISOLATION_FOREST DETAILED RESULTS
+----------------------------------------
+precision                : 0.0000
+recall                   : 0.0000
+f1                       : 0.0000
+accuracy                 : 0.9995
+false_positive_rate      : 0.0005
+false_negative_rate      : 0.0000
+roc_auc                  : 0.9664
+average_precision        : 0.0000
+roc_auc_source           : training_set
+
+LSTM_AUTOENCODER DETAILED RESULTS
+----------------------------------------
+precision                : 0.0000
+recall                   : 0.0000
+f1                       : 0.0000
+accuracy                 : 0.9825
+false_positive_rate      : 0.0175
+false_negative_rate      : 0.0000
+roc_auc                  : 0.3813
+average_precision        : 0.0000
+roc_auc_source           : training_set
+
+================================================================================
+END OF REPORT
+================================================================================

@@ -1,0 +1,22 @@
+{
+    "isolation_forest": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.9995,
+        "false_positive_rate": 0.0005,
+        "false_negative_rate": 0,
+        "roc_auc": NaN,
+        "average_precision": 0.0
+    },
+    "lstm_autoencoder": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.987,
+        "false_positive_rate": 0.013,
+        "false_negative_rate": 0,
+        "roc_auc": NaN,
+        "average_precision": 0.0
+    }
+}

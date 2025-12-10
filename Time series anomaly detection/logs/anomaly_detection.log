@@ -1,0 +1,726 @@
+2025-12-09 21:57:39,592 - utils.logger - INFO - Logging setup completed
+2025-12-09 21:57:39,609 - utils.logger - INFO - Anomaly Detection Pipeline initialized
+2025-12-09 21:57:39,610 - utils.logger - INFO - Starting anomaly detection pipeline...
+2025-12-09 21:57:39,611 - utils.logger - INFO - Step 1: Loading data...
+2025-12-09 21:57:39,617 - data.load_data - INFO - Downloading NASA bearing dataset...
+2025-12-09 21:57:39,812 - data.load_data - INFO - Synthetic data created with shape: (10000, 6)
+2025-12-09 21:57:39,920 - data.load_data - INFO - Loaded data shape: (10000, 4), Labels shape: (10000,)
+2025-12-09 21:57:39,924 - data.load_data - INFO - Anomaly percentage: 2.35%
+2025-12-09 21:57:39,925 - utils.logger - INFO - Step 2: Preprocessing data...
+2025-12-09 21:57:39,926 - data.preprocessor - INFO - Starting preprocessing pipeline...
+2025-12-09 21:57:39,930 - data.preprocessor - INFO - Handled 4.95% missing values using forward_fill
+2025-12-09 21:57:39,977 - data.preprocessor - INFO - Applied IQR-based outlier handling
+2025-12-09 21:57:39,983 - data.preprocessor - INFO - Scaled features using standard scaling
+2025-12-09 21:57:39,992 - data.preprocessor - INFO - Preprocessing pipeline completed
+2025-12-09 21:57:39,993 - utils.logger - INFO - Step 3: Splitting data...
+2025-12-09 21:57:39,995 - data.load_data - INFO - Train shape: (8000, 4), Test shape: (2000, 4)
+2025-12-09 21:57:39,996 - utils.logger - INFO - Step 4: Engineering features...
+2025-12-09 21:57:39,997 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-09 21:57:40,369 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-09 21:57:40,413 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-09 21:57:40,482 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-09 21:58:05,974 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-09 21:58:05,991 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-09 21:58:06,080 - features.feature_engineering - INFO - Total features created: 167
+2025-12-09 21:58:06,081 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (8000, 167)
+2025-12-09 21:58:06,084 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-09 21:58:06,196 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-09 21:58:06,205 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-09 21:58:06,270 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-09 21:58:12,493 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-09 21:58:12,506 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-09 21:58:12,535 - features.feature_engineering - INFO - Total features created: 167
+2025-12-09 21:58:12,535 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (2000, 167)
+2025-12-09 21:58:12,539 - utils.logger - INFO - Step 5: Training and evaluating models...
+2025-12-09 21:58:12,539 - utils.logger - INFO - Training Isolation Forest...
+2025-12-09 21:58:12,556 - models.isolation_forest_model - INFO - Training Isolation Forest model...
+2025-12-09 21:58:13,382 - models.isolation_forest_model - INFO - Isolation Forest training completed. Threshold: -0.1450
+2025-12-09 21:58:13,488 - utils.logger - INFO - Training LSTM Autoencoder...
+2025-12-09 21:58:13,488 - models.lstm_autoencoder - INFO - Training LSTM Autoencoder model...
+2025-12-09 21:58:13,494 - models.lstm_autoencoder - INFO - Created sequences of shape: (7991, 10, 4)
+2025-12-09 22:07:05,795 - models.lstm_autoencoder - INFO - LSTM Autoencoder training completed. Threshold: 0.1796
+2025-12-09 22:07:05,795 - models.lstm_autoencoder - INFO - Final training loss: 0.1062
+2025-12-09 22:07:07,384 - utils.logger - INFO - Step 6: Evaluating models...
+2025-12-09 22:07:07,389 - utils.logger - ERROR - Pipeline failed with error: Input y_true contains NaN.
+Traceback (most recent call last):
+  File "C:\Users\user\Desktop\Surya Project\Tsworks Assignment\Time series anomaly detection\main.py", line 111, in run
+    iso_metrics = self.evaluator.calculate_metrics(
+  File "C:\Users\user\Desktop\Surya Project\Tsworks Assignment\Time series anomaly detection\evaluation\evaluator.py", line 28, in calculate_metrics
+    metrics['precision'] = precision_score(y_true, y_pred, zero_division=0)
+  File "C:\Users\user\AppData\Local\Programs\Python\Python39\lib\site-packages\sklearn\utils\_param_validation.py", line 216, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\user\AppData\Local\Programs\Python\Python39\lib\site-packages\sklearn\metrics\_classification.py", line 2247, in precision_score
+    p, _, _, _ = precision_recall_fscore_support(
+  File "C:\Users\user\AppData\Local\Programs\Python\Python39\lib\site-packages\sklearn\utils\_param_validation.py", line 189, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\user\AppData\Local\Programs\Python\Python39\lib\site-packages\sklearn\metrics\_classification.py", line 1830, in precision_recall_fscore_support
+    labels = _check_set_wise_labels(y_true, y_pred, average, labels, pos_label)
+  File "C:\Users\user\AppData\Local\Programs\Python\Python39\lib\site-packages\sklearn\metrics\_classification.py", line 1596, in _check_set_wise_labels
+    y_type, y_true, y_pred = _check_targets(y_true, y_pred)
+  File "C:\Users\user\AppData\Local\Programs\Python\Python39\lib\site-packages\sklearn\metrics\_classification.py", line 99, in _check_targets
+    type_true = type_of_target(y_true, input_name="y_true")
+  File "C:\Users\user\AppData\Local\Programs\Python\Python39\lib\site-packages\sklearn\utils\multiclass.py", line 417, in type_of_target
+    _assert_all_finite(data, input_name=input_name)
+  File "C:\Users\user\AppData\Local\Programs\Python\Python39\lib\site-packages\sklearn\utils\validation.py", line 120, in _assert_all_finite
+    _assert_all_finite_element_wise(
+  File "C:\Users\user\AppData\Local\Programs\Python\Python39\lib\site-packages\sklearn\utils\validation.py", line 169, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input y_true contains NaN.
+2025-12-09 22:09:09,879 - utils.logger - INFO - Logging setup completed
+2025-12-09 22:09:09,915 - utils.logger - INFO - Anomaly Detection Pipeline initialized
+2025-12-09 22:09:09,916 - utils.logger - INFO - Starting anomaly detection pipeline...
+2025-12-09 22:09:09,916 - utils.logger - INFO - Step 1: Loading data...
+2025-12-09 22:09:10,053 - data.load_data - INFO - Loaded data shape: (10000, 4), Labels shape: (10000,)
+2025-12-09 22:09:10,060 - data.load_data - INFO - Anomaly percentage: 2.35%
+2025-12-09 22:09:10,061 - utils.logger - INFO - Step 2: Preprocessing data...
+2025-12-09 22:09:10,061 - data.preprocessor - INFO - Starting preprocessing pipeline...
+2025-12-09 22:09:10,079 - data.preprocessor - INFO - Handled 4.95% missing values using forward_fill
+2025-12-09 22:09:10,164 - data.preprocessor - INFO - Applied IQR-based outlier handling
+2025-12-09 22:09:10,195 - data.preprocessor - INFO - Scaled features using standard scaling
+2025-12-09 22:09:10,201 - data.preprocessor - WARNING - Found NaN values in labels. Filling with 0 (normal).
+2025-12-09 22:09:10,202 - data.preprocessor - INFO - Preprocessing pipeline completed
+2025-12-09 22:09:10,205 - utils.logger - INFO - Step 3: Splitting data...
+2025-12-09 22:09:10,223 - data.load_data - INFO - Train shape: (8000, 4), Test shape: (2000, 4)
+2025-12-09 22:09:10,226 - utils.logger - INFO - Step 4: Engineering features...
+2025-12-09 22:09:10,240 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-09 22:09:10,757 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-09 22:09:10,821 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-09 22:09:11,051 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-09 22:09:50,095 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-09 22:09:50,131 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-09 22:09:50,253 - features.feature_engineering - INFO - Total features created: 167
+2025-12-09 22:09:50,255 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (8000, 167)
+2025-12-09 22:09:50,263 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-09 22:09:50,389 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-09 22:09:50,421 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-09 22:09:50,536 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-09 22:09:58,255 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-09 22:09:58,267 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-09 22:09:58,292 - features.feature_engineering - INFO - Total features created: 167
+2025-12-09 22:09:58,298 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (2000, 167)
+2025-12-09 22:09:58,300 - utils.logger - INFO - Step 5: Training and evaluating models...
+2025-12-09 22:09:58,300 - utils.logger - INFO - Training Isolation Forest...
+2025-12-09 22:09:58,311 - models.isolation_forest_model - INFO - Training Isolation Forest model...
+2025-12-09 22:09:59,075 - models.isolation_forest_model - INFO - Isolation Forest training completed. Threshold: -0.1450
+2025-12-09 22:09:59,225 - utils.logger - INFO - Training LSTM Autoencoder...
+2025-12-09 22:09:59,225 - models.lstm_autoencoder - INFO - Training LSTM Autoencoder model...
+2025-12-09 22:09:59,243 - models.lstm_autoencoder - INFO - Created sequences of shape: (7991, 10, 4)
+2025-12-09 22:20:01,391 - models.lstm_autoencoder - INFO - LSTM Autoencoder training completed. Threshold: 0.1450
+2025-12-09 22:20:01,391 - models.lstm_autoencoder - INFO - Final training loss: 0.0875
+2025-12-09 22:20:02,844 - utils.logger - INFO - Step 6: Evaluating models...
+2025-12-09 22:20:02,862 - evaluation.evaluator - INFO - Isolation Forest Metrics:
+2025-12-09 22:20:02,863 - evaluation.evaluator - INFO -   precision: 0.0000
+2025-12-09 22:20:02,863 - evaluation.evaluator - INFO -   recall: 0.0000
+2025-12-09 22:20:02,864 - evaluation.evaluator - INFO -   f1: 0.0000
+2025-12-09 22:20:02,865 - evaluation.evaluator - INFO -   accuracy: 0.9995
+2025-12-09 22:20:02,865 - evaluation.evaluator - INFO -   false_positive_rate: 0.0005
+2025-12-09 22:20:02,867 - evaluation.evaluator - INFO -   false_negative_rate: 0.0000
+2025-12-09 22:20:02,867 - evaluation.evaluator - INFO -   roc_auc: nan
+2025-12-09 22:20:02,867 - evaluation.evaluator - INFO -   average_precision: 0.0000
+2025-12-09 22:20:02,895 - evaluation.evaluator - INFO - LSTM Autoencoder Metrics:
+2025-12-09 22:20:02,896 - evaluation.evaluator - INFO -   precision: 0.0000
+2025-12-09 22:20:02,896 - evaluation.evaluator - INFO -   recall: 0.0000
+2025-12-09 22:20:02,897 - evaluation.evaluator - INFO -   f1: 0.0000
+2025-12-09 22:20:02,899 - evaluation.evaluator - INFO -   accuracy: 0.9815
+2025-12-09 22:20:02,902 - evaluation.evaluator - INFO -   false_positive_rate: 0.0185
+2025-12-09 22:20:02,903 - evaluation.evaluator - INFO -   false_negative_rate: 0.0000
+2025-12-09 22:20:02,903 - evaluation.evaluator - INFO -   roc_auc: nan
+2025-12-09 22:20:02,906 - evaluation.evaluator - INFO -   average_precision: 0.0000
+2025-12-09 22:20:02,906 - utils.logger - INFO - Step 7: Generating visualizations...
+2025-12-09 22:23:30,331 - evaluation.evaluator - INFO - Anomaly timeline saved to visualizations/iso_forest_anomalies.png
+2025-12-09 22:25:27,158 - evaluation.evaluator - INFO - Anomaly timeline saved to visualizations/lstm_ae_anomalies.png
+2025-12-09 22:25:43,682 - evaluation.evaluator - INFO - Confusion matrix saved to visualizations/iso_forest_cm.png
+2025-12-09 22:25:52,373 - evaluation.evaluator - INFO - Confusion matrix saved to visualizations/lstm_ae_cm.png
+2025-12-09 22:25:59,136 - evaluation.evaluator - INFO - ROC curve saved to visualizations/iso_forest_roc.png
+2025-12-09 22:26:08,694 - evaluation.evaluator - INFO - ROC curve saved to visualizations/lstm_ae_roc.png
+2025-12-09 22:26:33,930 - utils.logger - INFO - Step 8: Generating final report...
+2025-12-09 22:26:34,026 - evaluation.evaluator - INFO - 
+Model Comparison:
+2025-12-09 22:26:34,066 - evaluation.evaluator - INFO - 
+              Model  precision  recall   f1  accuracy  false_positive_rate  false_negative_rate  roc_auc  average_precision  f1_rank  roc_auc_rank
+0  isolation_forest        0.0     0.0  0.0    0.9995               0.0005                    0      NaN                0.0      1.5           NaN
+1  lstm_autoencoder        0.0     0.0  0.0    0.9815               0.0185                    0      NaN                0.0      1.5           NaN
+2025-12-09 22:26:34,114 - utils.logger - ERROR - Pipeline failed with error: [Errno 2] No such file or directory: 'reports/evaluation_report.txt'
+Traceback (most recent call last):
+  File "C:\Users\user\Desktop\Surya Project\Tsworks Assignment\Time series anomaly detection\main.py", line 214, in run
+    report = self.evaluator.generate_report(
+  File "C:\Users\user\Desktop\Surya Project\Tsworks Assignment\Time series anomaly detection\evaluation\evaluator.py", line 235, in generate_report
+    with open(save_path, 'w') as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'reports/evaluation_report.txt'
+2025-12-09 22:28:20,637 - utils.logger - INFO - Logging setup completed
+2025-12-09 22:28:20,661 - utils.logger - INFO - Anomaly Detection Pipeline initialized
+2025-12-09 22:28:20,662 - utils.logger - INFO - Starting anomaly detection pipeline...
+2025-12-09 22:28:20,663 - utils.logger - INFO - Step 1: Loading data...
+2025-12-09 22:28:20,796 - data.load_data - INFO - Loaded data shape: (10000, 4), Labels shape: (10000,)
+2025-12-09 22:28:20,855 - data.load_data - INFO - Anomaly percentage: 2.35%
+2025-12-09 22:28:20,903 - utils.logger - INFO - Step 2: Preprocessing data...
+2025-12-09 22:28:20,944 - data.preprocessor - INFO - Starting preprocessing pipeline...
+2025-12-09 22:28:20,967 - data.preprocessor - INFO - Handled 4.95% missing values using forward_fill
+2025-12-09 22:28:20,992 - data.preprocessor - INFO - Applied IQR-based outlier handling
+2025-12-09 22:28:21,037 - data.preprocessor - INFO - Scaled features using standard scaling
+2025-12-09 22:28:21,038 - data.preprocessor - WARNING - Found NaN values in labels. Filling with 0 (normal).
+2025-12-09 22:28:21,039 - data.preprocessor - INFO - Preprocessing pipeline completed
+2025-12-09 22:28:21,040 - utils.logger - INFO - Step 3: Splitting data...
+2025-12-09 22:28:21,041 - data.load_data - INFO - Train shape: (8000, 4), Test shape: (2000, 4)
+2025-12-09 22:28:21,041 - utils.logger - INFO - Step 4: Engineering features...
+2025-12-09 22:28:21,042 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-09 22:28:21,220 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-09 22:28:21,245 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-09 22:28:21,286 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-09 22:28:48,421 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-09 22:28:48,461 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-09 22:28:48,622 - features.feature_engineering - INFO - Total features created: 167
+2025-12-09 22:28:48,652 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (8000, 167)
+2025-12-09 22:28:48,708 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-09 22:28:48,820 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-09 22:28:48,820 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-09 22:28:48,858 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-09 22:28:53,829 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-09 22:28:53,844 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-09 22:28:53,870 - features.feature_engineering - INFO - Total features created: 167
+2025-12-09 22:28:53,871 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (2000, 167)
+2025-12-09 22:28:53,873 - utils.logger - INFO - Step 5: Training and evaluating models...
+2025-12-09 22:28:53,873 - utils.logger - INFO - Training Isolation Forest...
+2025-12-09 22:28:53,887 - models.isolation_forest_model - INFO - Training Isolation Forest model...
+2025-12-09 22:28:54,424 - models.isolation_forest_model - INFO - Isolation Forest training completed. Threshold: -0.1450
+2025-12-09 22:28:54,502 - utils.logger - INFO - Training LSTM Autoencoder...
+2025-12-09 22:28:54,502 - models.lstm_autoencoder - INFO - Training LSTM Autoencoder model...
+2025-12-09 22:28:54,520 - models.lstm_autoencoder - INFO - Created sequences of shape: (7991, 10, 4)
+2025-12-09 22:29:29,839 - utils.logger - INFO - Logging setup completed
+2025-12-09 22:29:29,851 - utils.logger - INFO - Anomaly Detection Pipeline initialized
+2025-12-09 22:29:29,851 - utils.logger - INFO - Starting anomaly detection pipeline...
+2025-12-09 22:29:29,852 - utils.logger - INFO - Step 1: Loading data...
+2025-12-09 22:29:29,894 - data.load_data - INFO - Loaded data shape: (10000, 4), Labels shape: (10000,)
+2025-12-09 22:29:29,894 - data.load_data - INFO - Anomaly percentage: 2.35%
+2025-12-09 22:29:29,894 - utils.logger - INFO - Step 2: Preprocessing data...
+2025-12-09 22:29:29,894 - data.preprocessor - INFO - Starting preprocessing pipeline...
+2025-12-09 22:29:29,910 - data.preprocessor - INFO - Handled 4.95% missing values using forward_fill
+2025-12-09 22:29:29,929 - data.preprocessor - INFO - Applied IQR-based outlier handling
+2025-12-09 22:29:29,936 - data.preprocessor - INFO - Scaled features using standard scaling
+2025-12-09 22:29:29,939 - data.preprocessor - WARNING - Found NaN values in labels. Filling with 0 (normal).
+2025-12-09 22:29:29,940 - data.preprocessor - INFO - Preprocessing pipeline completed
+2025-12-09 22:29:29,941 - utils.logger - INFO - Step 3: Splitting data...
+2025-12-09 22:29:29,945 - data.load_data - INFO - Train shape: (8000, 4), Test shape: (2000, 4)
+2025-12-09 22:29:29,946 - utils.logger - INFO - Step 4: Engineering features...
+2025-12-09 22:29:29,947 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-09 22:29:30,058 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-09 22:29:30,083 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-09 22:29:30,106 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-09 22:29:50,705 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-09 22:29:50,727 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-09 22:29:50,784 - features.feature_engineering - INFO - Total features created: 167
+2025-12-09 22:29:50,784 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (8000, 167)
+2025-12-09 22:29:50,786 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-09 22:29:50,833 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-09 22:29:50,853 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-09 22:29:50,868 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-09 22:29:55,752 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-09 22:29:55,767 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-09 22:29:55,794 - features.feature_engineering - INFO - Total features created: 167
+2025-12-09 22:29:55,795 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (2000, 167)
+2025-12-09 22:29:55,796 - utils.logger - INFO - Step 5: Training and evaluating models...
+2025-12-09 22:29:55,796 - utils.logger - INFO - Training Isolation Forest...
+2025-12-09 22:29:55,811 - models.isolation_forest_model - INFO - Training Isolation Forest model...
+2025-12-09 22:29:56,346 - models.isolation_forest_model - INFO - Isolation Forest training completed. Threshold: -0.1450
+2025-12-09 22:29:56,421 - utils.logger - INFO - Training LSTM Autoencoder...
+2025-12-09 22:29:56,421 - models.lstm_autoencoder - INFO - Training LSTM Autoencoder model...
+2025-12-09 22:29:56,439 - models.lstm_autoencoder - INFO - Created sequences of shape: (7991, 10, 4)
+2025-12-09 22:38:48,500 - models.lstm_autoencoder - INFO - LSTM Autoencoder training completed. Threshold: 0.1299
+2025-12-09 22:38:48,500 - models.lstm_autoencoder - INFO - Final training loss: 0.0848
+2025-12-09 22:38:49,996 - utils.logger - INFO - Step 6: Evaluating models...
+2025-12-09 22:38:50,005 - evaluation.evaluator - INFO - Isolation Forest Metrics:
+2025-12-09 22:38:50,005 - evaluation.evaluator - INFO -   precision: 0.0000
+2025-12-09 22:38:50,005 - evaluation.evaluator - INFO -   recall: 0.0000
+2025-12-09 22:38:50,005 - evaluation.evaluator - INFO -   f1: 0.0000
+2025-12-09 22:38:50,005 - evaluation.evaluator - INFO -   accuracy: 0.9995
+2025-12-09 22:38:50,005 - evaluation.evaluator - INFO -   false_positive_rate: 0.0005
+2025-12-09 22:38:50,017 - evaluation.evaluator - INFO -   false_negative_rate: 0.0000
+2025-12-09 22:38:50,018 - evaluation.evaluator - INFO -   roc_auc: nan
+2025-12-09 22:38:50,021 - evaluation.evaluator - INFO -   average_precision: 0.0000
+2025-12-09 22:38:50,044 - evaluation.evaluator - INFO - LSTM Autoencoder Metrics:
+2025-12-09 22:38:50,044 - evaluation.evaluator - INFO -   precision: 0.0000
+2025-12-09 22:38:50,044 - evaluation.evaluator - INFO -   recall: 0.0000
+2025-12-09 22:38:50,044 - evaluation.evaluator - INFO -   f1: 0.0000
+2025-12-09 22:38:50,044 - evaluation.evaluator - INFO -   accuracy: 0.9870
+2025-12-09 22:38:50,044 - evaluation.evaluator - INFO -   false_positive_rate: 0.0130
+2025-12-09 22:38:50,044 - evaluation.evaluator - INFO -   false_negative_rate: 0.0000
+2025-12-09 22:38:50,044 - evaluation.evaluator - INFO -   roc_auc: nan
+2025-12-09 22:38:50,044 - evaluation.evaluator - INFO -   average_precision: 0.0000
+2025-12-09 22:38:50,044 - utils.logger - INFO - Step 7: Generating visualizations...
+2025-12-09 22:39:09,043 - evaluation.evaluator - INFO - Anomaly timeline saved to visualizations/iso_forest_anomalies.png
+2025-12-09 22:39:32,821 - evaluation.evaluator - INFO - Anomaly timeline saved to visualizations/lstm_ae_anomalies.png
+2025-12-09 22:39:43,902 - evaluation.evaluator - INFO - Confusion matrix saved to visualizations/iso_forest_cm.png
+2025-12-09 22:39:48,710 - evaluation.evaluator - INFO - Confusion matrix saved to visualizations/lstm_ae_cm.png
+2025-12-09 22:40:02,331 - evaluation.evaluator - INFO - ROC curve saved to visualizations/iso_forest_roc.png
+2025-12-09 22:40:37,978 - evaluation.evaluator - INFO - ROC curve saved to visualizations/lstm_ae_roc.png
+2025-12-09 22:41:20,185 - utils.logger - INFO - Step 8: Generating final report...
+2025-12-09 22:41:20,211 - evaluation.evaluator - INFO - 
+Model Comparison:
+2025-12-09 22:41:20,298 - evaluation.evaluator - INFO - 
+              Model  precision  recall   f1  accuracy  false_positive_rate  false_negative_rate  roc_auc  average_precision  f1_rank  roc_auc_rank
+0  isolation_forest        0.0     0.0  0.0    0.9995               0.0005                    0      NaN                0.0      1.5           NaN
+1  lstm_autoencoder        0.0     0.0  0.0    0.9870               0.0130                    0      NaN                0.0      1.5           NaN
+2025-12-09 22:41:20,339 - evaluation.evaluator - INFO - Evaluation report saved to reports/evaluation_report.txt
+2025-12-09 22:41:20,391 - utils.logger - INFO - Step 9: Saving results...
+2025-12-09 22:41:20,423 - utils.logger - INFO - Results saved to results
+2025-12-09 22:41:20,479 - utils.logger - INFO - Pipeline completed successfully!
+2025-12-09 22:41:20,517 - evaluation.evaluator - INFO - 
+Model Comparison:
+2025-12-09 22:41:20,543 - evaluation.evaluator - INFO - 
+              Model  precision  recall   f1  accuracy  false_positive_rate  false_negative_rate  roc_auc  average_precision  f1_rank  roc_auc_rank
+0  isolation_forest        0.0     0.0  0.0    0.9995               0.0005                    0      NaN                0.0      1.5           NaN
+1  lstm_autoencoder        0.0     0.0  0.0    0.9870               0.0130                    0      NaN                0.0      1.5           NaN
+2025-12-09 22:41:20,548 - utils.logger - ERROR - Pipeline failed with error: index 0 is out of bounds for axis 0 with size 0
+Traceback (most recent call last):
+  File "C:\Users\user\Desktop\Surya Project\Tsworks Assignment\Time series anomaly detection\main.py", line 237, in run
+    print(f"\nBest model by F1-score: {comparison_df.loc[comparison_df['f1_rank'] == 1, 'Model'].values[0]}")
+IndexError: index 0 is out of bounds for axis 0 with size 0
+2025-12-09 22:42:54,740 - utils.logger - INFO - Logging setup completed
+2025-12-09 22:42:54,773 - utils.logger - INFO - Anomaly Detection Pipeline initialized
+2025-12-09 22:42:54,777 - utils.logger - INFO - Starting anomaly detection pipeline...
+2025-12-09 22:42:54,778 - utils.logger - INFO - Step 1: Loading data...
+2025-12-09 22:42:54,879 - data.load_data - INFO - Loaded data shape: (10000, 4), Labels shape: (10000,)
+2025-12-09 22:42:54,882 - data.load_data - INFO - Anomaly percentage: 2.35%
+2025-12-09 22:42:54,884 - utils.logger - INFO - Step 2: Preprocessing data...
+2025-12-09 22:42:54,885 - data.preprocessor - INFO - Starting preprocessing pipeline...
+2025-12-09 22:42:54,888 - data.preprocessor - INFO - Handled 4.95% missing values using forward_fill
+2025-12-09 22:42:54,920 - data.preprocessor - INFO - Applied IQR-based outlier handling
+2025-12-09 22:42:54,934 - data.preprocessor - INFO - Scaled features using standard scaling
+2025-12-09 22:42:54,937 - data.preprocessor - WARNING - Found NaN values in labels. Filling with 0 (normal).
+2025-12-09 22:42:54,939 - data.preprocessor - INFO - Preprocessing pipeline completed
+2025-12-09 22:42:54,940 - utils.logger - INFO - Step 3: Splitting data...
+2025-12-09 22:42:54,941 - data.load_data - INFO - Train shape: (8000, 4), Test shape: (2000, 4)
+2025-12-09 22:42:54,942 - utils.logger - INFO - Step 4: Engineering features...
+2025-12-09 22:42:54,942 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-09 22:42:55,160 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-09 22:42:55,200 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-09 22:42:55,228 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-09 22:43:29,579 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-09 22:43:29,602 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-09 22:43:29,653 - features.feature_engineering - INFO - Total features created: 167
+2025-12-09 22:43:29,655 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (8000, 167)
+2025-12-09 22:43:29,658 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-09 22:43:29,719 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-09 22:43:29,734 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-09 22:43:29,753 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-09 22:43:35,241 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-09 22:43:35,256 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-09 22:43:35,278 - features.feature_engineering - INFO - Total features created: 167
+2025-12-09 22:43:35,279 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (2000, 167)
+2025-12-09 22:43:35,280 - utils.logger - INFO - Step 5: Training and evaluating models...
+2025-12-09 22:43:35,281 - utils.logger - INFO - Training Isolation Forest...
+2025-12-09 22:43:35,288 - models.isolation_forest_model - INFO - Training Isolation Forest model...
+2025-12-09 22:43:35,901 - models.isolation_forest_model - INFO - Isolation Forest training completed. Threshold: -0.1450
+2025-12-09 22:43:35,990 - utils.logger - INFO - Training LSTM Autoencoder...
+2025-12-09 22:43:35,991 - models.lstm_autoencoder - INFO - Training LSTM Autoencoder model...
+2025-12-09 22:43:35,999 - models.lstm_autoencoder - INFO - Created sequences of shape: (7991, 10, 4)
+2025-12-09 22:51:05,383 - models.lstm_autoencoder - INFO - LSTM Autoencoder training completed. Threshold: 0.1784
+2025-12-09 22:51:05,383 - models.lstm_autoencoder - INFO - Final training loss: 0.1130
+2025-12-09 22:51:06,840 - utils.logger - INFO - Step 6: Evaluating models...
+2025-12-09 22:51:06,881 - evaluation.evaluator - INFO - Isolation Forest Metrics:
+2025-12-09 22:51:06,882 - evaluation.evaluator - INFO -   precision: 0.0000
+2025-12-09 22:51:06,882 - evaluation.evaluator - INFO -   recall: 0.0000
+2025-12-09 22:51:06,883 - evaluation.evaluator - INFO -   f1: 0.0000
+2025-12-09 22:51:06,883 - evaluation.evaluator - INFO -   accuracy: 0.9995
+2025-12-09 22:51:06,884 - evaluation.evaluator - INFO -   false_positive_rate: 0.0005
+2025-12-09 22:51:06,884 - evaluation.evaluator - INFO -   false_negative_rate: 0.0000
+2025-12-09 22:51:06,885 - evaluation.evaluator - INFO -   roc_auc: nan
+2025-12-09 22:51:06,885 - evaluation.evaluator - INFO -   average_precision: 0.0000
+2025-12-09 22:51:06,903 - evaluation.evaluator - INFO - LSTM Autoencoder Metrics:
+2025-12-09 22:51:06,903 - evaluation.evaluator - INFO -   precision: 0.0000
+2025-12-09 22:51:06,904 - evaluation.evaluator - INFO -   recall: 0.0000
+2025-12-09 22:51:06,905 - evaluation.evaluator - INFO -   f1: 0.0000
+2025-12-09 22:51:06,905 - evaluation.evaluator - INFO -   accuracy: 0.9845
+2025-12-09 22:51:06,906 - evaluation.evaluator - INFO -   false_positive_rate: 0.0155
+2025-12-09 22:51:06,906 - evaluation.evaluator - INFO -   false_negative_rate: 0.0000
+2025-12-09 22:51:06,907 - evaluation.evaluator - INFO -   roc_auc: nan
+2025-12-09 22:51:06,907 - evaluation.evaluator - INFO -   average_precision: 0.0000
+2025-12-09 22:51:06,908 - utils.logger - INFO - Step 7: Generating visualizations...
+2025-12-09 22:51:16,310 - evaluation.evaluator - INFO - Anomaly timeline saved to visualizations/iso_forest_anomalies.png
+2025-12-09 22:51:26,006 - evaluation.evaluator - INFO - Anomaly timeline saved to visualizations/lstm_ae_anomalies.png
+2025-12-09 22:51:31,927 - evaluation.evaluator - INFO - Confusion matrix saved to visualizations/iso_forest_cm.png
+2025-12-09 22:51:36,338 - evaluation.evaluator - INFO - Confusion matrix saved to visualizations/lstm_ae_cm.png
+2025-12-09 22:51:39,126 - evaluation.evaluator - INFO - ROC curve saved to visualizations/iso_forest_roc.png
+2025-12-09 22:51:42,956 - evaluation.evaluator - INFO - ROC curve saved to visualizations/lstm_ae_roc.png
+2025-12-09 22:52:16,790 - utils.logger - INFO - Step 8: Generating final report...
+2025-12-09 22:52:16,836 - evaluation.evaluator - INFO - 
+Model Comparison:
+2025-12-09 22:52:16,868 - evaluation.evaluator - INFO - 
+              Model  precision  recall   f1  accuracy  false_positive_rate  false_negative_rate  roc_auc  average_precision  f1_rank  roc_auc_rank
+0  isolation_forest        0.0     0.0  0.0    0.9995               0.0005                    0      NaN                0.0      1.5           NaN
+1  lstm_autoencoder        0.0     0.0  0.0    0.9845               0.0155                    0      NaN                0.0      1.5           NaN
+2025-12-09 22:52:16,903 - evaluation.evaluator - INFO - Evaluation report saved to reports/evaluation_report.txt
+2025-12-09 22:52:16,908 - utils.logger - INFO - Step 9: Saving results...
+2025-12-09 22:52:16,918 - utils.logger - INFO - Results saved to results
+2025-12-09 22:52:16,933 - utils.logger - INFO - Pipeline completed successfully!
+2025-12-09 22:52:16,946 - evaluation.evaluator - INFO - 
+Model Comparison:
+2025-12-09 22:52:16,973 - evaluation.evaluator - INFO - 
+              Model  precision  recall   f1  accuracy  false_positive_rate  false_negative_rate  roc_auc  average_precision  f1_rank  roc_auc_rank
+0  isolation_forest        0.0     0.0  0.0    0.9995               0.0005                    0      NaN                0.0      1.5           NaN
+1  lstm_autoencoder        0.0     0.0  0.0    0.9845               0.0155                    0      NaN                0.0      1.5           NaN
+2025-12-10 06:10:15,668 - utils.logger - INFO - Logging setup completed
+2025-12-10 06:10:15,692 - utils.logger - INFO - Anomaly Detection Pipeline initialized
+2025-12-10 06:10:15,692 - utils.logger - INFO - Starting anomaly detection pipeline...
+2025-12-10 06:10:15,698 - utils.logger - INFO - Step 1: Loading data...
+2025-12-10 06:10:15,801 - data.load_data - INFO - Loaded data shape: (10000, 4), Labels shape: (10000,)
+2025-12-10 06:10:15,803 - data.load_data - INFO - Anomaly percentage: 2.35%
+2025-12-10 06:10:15,804 - utils.logger - INFO - Step 2: Preprocessing data...
+2025-12-10 06:10:15,805 - data.preprocessor - INFO - Starting preprocessing pipeline...
+2025-12-10 06:10:15,809 - data.preprocessor - INFO - Handled 4.95% missing values using forward_fill
+2025-12-10 06:10:15,846 - data.preprocessor - INFO - Applied IQR-based outlier handling
+2025-12-10 06:10:15,856 - data.preprocessor - INFO - Scaled features using standard scaling
+2025-12-10 06:10:15,860 - data.preprocessor - WARNING - Found NaN values in labels. Filling with 0 (normal).
+2025-12-10 06:10:15,861 - data.preprocessor - INFO - Preprocessing pipeline completed
+2025-12-10 06:10:15,862 - utils.logger - INFO - Step 3: Splitting data...
+2025-12-10 06:10:15,864 - data.load_data - INFO - Train shape: (8000, 4), Test shape: (2000, 4)
+2025-12-10 06:10:15,864 - utils.logger - INFO - Step 4: Engineering features...
+2025-12-10 06:10:15,865 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-10 06:10:16,132 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-10 06:10:16,162 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-10 06:10:16,197 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-10 06:10:53,424 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-10 06:10:53,456 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-10 06:10:53,511 - features.feature_engineering - INFO - Total features created: 167
+2025-12-10 06:10:53,519 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (8000, 167)
+2025-12-10 06:10:53,524 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-10 06:10:53,616 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-10 06:10:53,626 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-10 06:10:53,661 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-10 06:11:00,787 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-10 06:11:00,833 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-10 06:11:00,889 - features.feature_engineering - INFO - Total features created: 167
+2025-12-10 06:11:00,893 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (2000, 167)
+2025-12-10 06:11:00,896 - utils.logger - INFO - Step 5: Training and evaluating models...
+2025-12-10 06:11:00,896 - utils.logger - INFO - Training Isolation Forest...
+2025-12-10 06:11:00,924 - models.isolation_forest_model - INFO - Training Isolation Forest model...
+2025-12-10 06:11:02,038 - models.isolation_forest_model - INFO - Isolation Forest training completed. Threshold: -0.1450
+2025-12-10 06:11:02,207 - utils.logger - INFO - Training LSTM Autoencoder...
+2025-12-10 06:11:02,209 - models.lstm_autoencoder - INFO - Training LSTM Autoencoder model...
+2025-12-10 06:11:02,227 - models.lstm_autoencoder - INFO - Created sequences of shape: (7991, 10, 4)
+2025-12-10 06:13:49,149 - utils.logger - INFO - Logging setup completed
+2025-12-10 06:13:49,170 - utils.logger - INFO - Anomaly Detection Pipeline initialized
+2025-12-10 06:13:49,171 - utils.logger - INFO - Starting anomaly detection pipeline...
+2025-12-10 06:13:49,171 - utils.logger - INFO - Step 1: Loading data...
+2025-12-10 06:13:49,249 - data.load_data - INFO - Loaded data shape: (10000, 4), Labels shape: (10000,)
+2025-12-10 06:13:49,250 - data.load_data - INFO - Anomaly percentage: 2.35%
+2025-12-10 06:13:49,252 - utils.logger - INFO - Step 2: Preprocessing data...
+2025-12-10 06:13:49,252 - data.preprocessor - INFO - Starting preprocessing pipeline...
+2025-12-10 06:13:49,256 - data.preprocessor - INFO - Handled 4.95% missing values using forward_fill
+2025-12-10 06:13:49,285 - data.preprocessor - INFO - Applied IQR-based outlier handling
+2025-12-10 06:13:49,296 - data.preprocessor - INFO - Scaled features using standard scaling
+2025-12-10 06:13:49,299 - data.preprocessor - WARNING - Found NaN values in labels. Filling with 0 (normal).
+2025-12-10 06:13:49,301 - data.preprocessor - INFO - Preprocessing pipeline completed
+2025-12-10 06:13:49,301 - utils.logger - INFO - Step 3: Splitting data...
+2025-12-10 06:13:49,302 - data.load_data - INFO - Train shape: (8000, 4), Test shape: (2000, 4)
+2025-12-10 06:13:49,303 - utils.logger - INFO - Step 4: Engineering features...
+2025-12-10 06:13:49,304 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-10 06:13:49,451 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-10 06:13:49,485 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-10 06:13:49,521 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-10 06:14:20,010 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-10 06:14:20,048 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-10 06:14:20,134 - features.feature_engineering - INFO - Total features created: 167
+2025-12-10 06:14:20,137 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (8000, 167)
+2025-12-10 06:14:20,142 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-10 06:14:20,224 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-10 06:14:20,246 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-10 06:14:20,277 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-10 06:14:27,259 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-10 06:14:27,272 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-10 06:14:27,310 - features.feature_engineering - INFO - Total features created: 167
+2025-12-10 06:14:27,310 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (2000, 167)
+2025-12-10 06:14:27,318 - utils.logger - INFO - Step 5: Training and evaluating models...
+2025-12-10 06:14:27,318 - utils.logger - INFO - Training Isolation Forest...
+2025-12-10 06:14:27,348 - models.isolation_forest_model - INFO - Training Isolation Forest model...
+2025-12-10 06:14:28,339 - models.isolation_forest_model - INFO - Isolation Forest training completed. Threshold: -0.1450
+2025-12-10 06:14:28,488 - utils.logger - INFO - Training LSTM Autoencoder...
+2025-12-10 06:14:28,488 - models.lstm_autoencoder - INFO - Training LSTM Autoencoder model...
+2025-12-10 06:14:28,507 - models.lstm_autoencoder - INFO - Created sequences of shape: (7991, 10, 4)
+2025-12-10 06:23:37,037 - models.lstm_autoencoder - INFO - LSTM Autoencoder training completed. Threshold: 0.1697
+2025-12-10 06:23:37,037 - models.lstm_autoencoder - INFO - Final training loss: 0.1065
+2025-12-10 06:23:39,471 - utils.logger - INFO - Step 6: Evaluating models...
+2025-12-10 06:23:39,523 - evaluation.evaluator - WARNING - Only one class present in y_true. Cannot calculate ROC AUC.
+2025-12-10 06:23:39,523 - evaluation.evaluator - INFO - Isolation Forest Metrics:
+2025-12-10 06:23:39,523 - evaluation.evaluator - INFO -   precision: 0.0000
+2025-12-10 06:23:39,523 - evaluation.evaluator - INFO -   recall: 0.0000
+2025-12-10 06:23:39,523 - evaluation.evaluator - INFO -   f1: 0.0000
+2025-12-10 06:23:39,523 - evaluation.evaluator - INFO -   accuracy: 0.9995
+2025-12-10 06:23:39,531 - evaluation.evaluator - INFO -   false_positive_rate: 0.0005
+2025-12-10 06:23:39,531 - evaluation.evaluator - INFO -   false_negative_rate: 0.0000
+2025-12-10 06:23:39,532 - evaluation.evaluator - INFO -   roc_auc: 0.0000
+2025-12-10 06:23:39,532 - evaluation.evaluator - INFO -   average_precision: 0.0000
+2025-12-10 06:23:39,576 - evaluation.evaluator - WARNING - Only one class present in y_true. Cannot calculate ROC AUC.
+2025-12-10 06:23:39,576 - evaluation.evaluator - INFO - LSTM Autoencoder Metrics:
+2025-12-10 06:23:39,576 - evaluation.evaluator - INFO -   precision: 0.0000
+2025-12-10 06:23:39,576 - evaluation.evaluator - INFO -   recall: 0.0000
+2025-12-10 06:23:39,576 - evaluation.evaluator - INFO -   f1: 0.0000
+2025-12-10 06:23:39,576 - evaluation.evaluator - INFO -   accuracy: 0.9840
+2025-12-10 06:23:39,576 - evaluation.evaluator - INFO -   false_positive_rate: 0.0160
+2025-12-10 06:23:39,588 - evaluation.evaluator - INFO -   false_negative_rate: 0.0000
+2025-12-10 06:23:39,591 - evaluation.evaluator - INFO -   roc_auc: 0.0000
+2025-12-10 06:23:39,594 - evaluation.evaluator - INFO -   average_precision: 0.0000
+2025-12-10 06:23:39,594 - utils.logger - INFO - Step 7: Generating visualizations...
+2025-12-10 06:37:18,650 - evaluation.evaluator - INFO - Anomaly timeline saved to visualizations/iso_forest_anomalies.png
+2025-12-10 06:37:25,000 - evaluation.evaluator - INFO - Anomaly timeline saved to visualizations/lstm_ae_anomalies.png
+2025-12-10 06:37:29,389 - evaluation.evaluator - INFO - Confusion matrix saved to visualizations/iso_forest_cm.png
+2025-12-10 06:37:39,831 - evaluation.evaluator - INFO - Confusion matrix saved to visualizations/lstm_ae_cm.png
+2025-12-10 06:37:43,945 - evaluation.evaluator - INFO - ROC curve saved to visualizations/iso_forest_roc.png
+2025-12-10 06:37:55,426 - evaluation.evaluator - INFO - ROC curve saved to visualizations/lstm_ae_roc.png
+2025-12-10 06:38:14,485 - utils.logger - INFO - Step 8: Generating final report...
+2025-12-10 06:38:14,506 - evaluation.evaluator - INFO - 
+Model Comparison:
+2025-12-10 06:38:14,540 - evaluation.evaluator - INFO - 
+              Model  precision  recall   f1  accuracy  false_positive_rate  false_negative_rate  roc_auc  average_precision  f1_rank  roc_auc_rank
+0  isolation_forest        0.0     0.0  0.0    0.9995               0.0005                    0      0.0                0.0      1.5           1.5
+1  lstm_autoencoder        0.0     0.0  0.0    0.9840               0.0160                    0      0.0                0.0      1.5           1.5
+2025-12-10 06:38:14,558 - evaluation.evaluator - INFO - Evaluation report saved to reports/evaluation_report.txt
+2025-12-10 06:38:14,563 - utils.logger - INFO - Step 9: Saving results...
+2025-12-10 06:38:14,563 - utils.logger - INFO - Results saved to results
+2025-12-10 06:38:14,563 - utils.logger - INFO - Pipeline completed successfully!
+2025-12-10 06:38:14,579 - evaluation.evaluator - INFO - 
+Model Comparison:
+2025-12-10 06:38:14,583 - evaluation.evaluator - INFO - 
+              Model  precision  recall   f1  accuracy  false_positive_rate  false_negative_rate  roc_auc  average_precision  f1_rank  roc_auc_rank
+0  isolation_forest        0.0     0.0  0.0    0.9995               0.0005                    0      0.0                0.0      1.5           1.5
+1  lstm_autoencoder        0.0     0.0  0.0    0.9840               0.0160                    0      0.0                0.0      1.5           1.5
+2025-12-10 06:46:19,212 - utils.logger - INFO - Logging setup completed
+2025-12-10 06:46:19,239 - utils.logger - INFO - Anomaly Detection Pipeline initialized
+2025-12-10 06:46:19,240 - utils.logger - INFO - Starting anomaly detection pipeline...
+2025-12-10 06:46:19,242 - utils.logger - INFO - Step 1: Loading data...
+2025-12-10 06:46:19,319 - data.load_data - INFO - Loaded data shape: (10000, 4), Labels shape: (10000,)
+2025-12-10 06:46:19,326 - data.load_data - INFO - Anomaly percentage: 2.35%
+2025-12-10 06:46:19,327 - utils.logger - INFO - Step 2: Preprocessing data...
+2025-12-10 06:46:19,327 - data.preprocessor - INFO - Starting preprocessing pipeline...
+2025-12-10 06:46:19,329 - data.preprocessor - INFO - Handled 4.95% missing values using forward_fill
+2025-12-10 06:46:19,353 - data.preprocessor - INFO - Applied IQR-based outlier handling
+2025-12-10 06:46:19,356 - data.preprocessor - INFO - Scaled features using standard scaling
+2025-12-10 06:46:19,360 - data.preprocessor - WARNING - Found NaN values in labels. Filling with 0 (normal).
+2025-12-10 06:46:19,362 - data.preprocessor - INFO - Preprocessing pipeline completed
+2025-12-10 06:46:19,362 - utils.logger - INFO - Step 3: Splitting data...
+2025-12-10 06:46:19,363 - data.load_data - INFO - Train shape: (8000, 4), Test shape: (2000, 4)
+2025-12-10 06:46:19,364 - utils.logger - INFO - Step 4: Engineering features...
+2025-12-10 06:46:19,364 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-10 06:46:19,535 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-10 06:46:19,553 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-10 06:46:19,591 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-10 06:46:52,314 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-10 06:46:52,328 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-10 06:46:52,394 - features.feature_engineering - INFO - Total features created: 167
+2025-12-10 06:46:52,394 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (8000, 167)
+2025-12-10 06:46:52,404 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-10 06:46:52,462 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-10 06:46:52,487 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-10 06:46:52,509 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-10 06:46:59,209 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-10 06:46:59,213 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-10 06:46:59,243 - features.feature_engineering - INFO - Total features created: 167
+2025-12-10 06:46:59,245 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (2000, 167)
+2025-12-10 06:46:59,247 - utils.logger - INFO - Step 5: Training and evaluating models...
+2025-12-10 06:46:59,248 - utils.logger - INFO - Training Isolation Forest...
+2025-12-10 06:46:59,260 - models.isolation_forest_model - INFO - Training Isolation Forest model...
+2025-12-10 06:47:00,008 - models.isolation_forest_model - INFO - Isolation Forest training completed. Threshold: -0.1450
+2025-12-10 06:47:00,109 - utils.logger - INFO - Training LSTM Autoencoder...
+2025-12-10 06:47:00,124 - models.lstm_autoencoder - INFO - Training LSTM Autoencoder model...
+2025-12-10 06:47:00,131 - models.lstm_autoencoder - INFO - Created sequences of shape: (7991, 10, 4)
+2025-12-10 06:55:15,151 - models.lstm_autoencoder - INFO - LSTM Autoencoder training completed. Threshold: 0.1840
+2025-12-10 06:55:15,153 - models.lstm_autoencoder - INFO - Final training loss: 0.1121
+2025-12-10 06:55:16,928 - utils.logger - INFO - Step 6: Evaluating models...
+2025-12-10 06:55:16,943 - evaluation.evaluator - WARNING - Only one class present in y_true (classes: [0.], counts: {np.float64(0.0): np.int64(2000)}). Cannot calculate ROC AUC.
+2025-12-10 06:55:16,945 - evaluation.evaluator - INFO - Isolation Forest Metrics:
+2025-12-10 06:55:16,946 - evaluation.evaluator - INFO -   precision: 0.0000
+2025-12-10 06:55:16,946 - evaluation.evaluator - INFO -   recall: 0.0000
+2025-12-10 06:55:16,946 - evaluation.evaluator - INFO -   f1: 0.0000
+2025-12-10 06:55:16,947 - evaluation.evaluator - INFO -   accuracy: 0.9995
+2025-12-10 06:55:16,947 - evaluation.evaluator - INFO -   false_positive_rate: 0.0005
+2025-12-10 06:55:16,948 - evaluation.evaluator - INFO -   false_negative_rate: 0.0000
+2025-12-10 06:55:16,949 - evaluation.evaluator - INFO -   roc_auc: 0.0000
+2025-12-10 06:55:16,950 - evaluation.evaluator - INFO -   average_precision: 0.0000
+2025-12-10 06:55:16,951 - utils.logger - INFO - Test set has no anomalies. Calculating ROC AUC on training set for Isolation Forest...
+2025-12-10 06:55:17,326 - utils.logger - INFO - Isolation Forest ROC AUC (training set): 0.9664
+2025-12-10 06:55:17,349 - evaluation.evaluator - WARNING - Only one class present in y_true (classes: [0.], counts: {np.float64(0.0): np.int64(2000)}). Cannot calculate ROC AUC.
+2025-12-10 06:55:17,351 - evaluation.evaluator - INFO - LSTM Autoencoder Metrics:
+2025-12-10 06:55:17,351 - evaluation.evaluator - INFO -   precision: 0.0000
+2025-12-10 06:55:17,352 - evaluation.evaluator - INFO -   recall: 0.0000
+2025-12-10 06:55:17,353 - evaluation.evaluator - INFO -   f1: 0.0000
+2025-12-10 06:55:17,353 - evaluation.evaluator - INFO -   accuracy: 0.9880
+2025-12-10 06:55:17,354 - evaluation.evaluator - INFO -   false_positive_rate: 0.0120
+2025-12-10 06:55:17,355 - evaluation.evaluator - INFO -   false_negative_rate: 0.0000
+2025-12-10 06:55:17,357 - evaluation.evaluator - INFO -   roc_auc: 0.0000
+2025-12-10 06:55:17,357 - evaluation.evaluator - INFO -   average_precision: 0.0000
+2025-12-10 06:55:17,359 - utils.logger - INFO - Test set has no anomalies. Calculating ROC AUC on training set for LSTM Autoencoder...
+2025-12-10 06:55:23,803 - utils.logger - INFO - LSTM Autoencoder ROC AUC (training set): 0.4261
+2025-12-10 06:55:23,803 - utils.logger - INFO - Step 7: Generating visualizations...
+2025-12-10 06:55:35,352 - evaluation.evaluator - INFO - Anomaly timeline saved to visualizations/iso_forest_anomalies.png
+2025-12-10 06:55:44,131 - evaluation.evaluator - INFO - Anomaly timeline saved to visualizations/lstm_ae_anomalies.png
+2025-12-10 06:55:50,629 - evaluation.evaluator - INFO - Confusion matrix saved to visualizations/iso_forest_cm.png
+2025-12-10 06:55:55,512 - evaluation.evaluator - INFO - Confusion matrix saved to visualizations/lstm_ae_cm.png
+2025-12-10 06:55:58,994 - evaluation.evaluator - INFO - ROC curve saved to visualizations/iso_forest_roc.png
+2025-12-10 06:56:07,510 - evaluation.evaluator - INFO - ROC curve saved to visualizations/lstm_ae_roc.png
+2025-12-10 06:56:31,733 - utils.logger - INFO - Step 8: Generating final report...
+2025-12-10 06:56:31,881 - evaluation.evaluator - INFO - 
+Model Comparison:
+2025-12-10 06:56:31,923 - evaluation.evaluator - INFO - 
+              Model  precision  recall   f1  accuracy  false_positive_rate  false_negative_rate   roc_auc  average_precision roc_auc_source  f1_rank  roc_auc_rank
+0  isolation_forest        0.0     0.0  0.0    0.9995               0.0005                    0  0.966379                0.0   training_set      1.5           1.0
+1  lstm_autoencoder        0.0     0.0  0.0    0.9880               0.0120                    0  0.426124                0.0   training_set      1.5           2.0
+2025-12-10 06:56:32,003 - utils.logger - ERROR - Pipeline failed with error: Unknown format code 'f' for object of type 'str'
+Traceback (most recent call last):
+  File "C:\Users\user\Desktop\Surya Project\Tsworks Assignment\Time series anomaly detection\main.py", line 241, in run
+    report = self.evaluator.generate_report(
+  File "C:\Users\user\Desktop\Surya Project\Tsworks Assignment\Time series anomaly detection\evaluation\evaluator.py", line 301, in generate_report
+    report_lines.append(f"{metric:25}: {value:.4f}")
+ValueError: Unknown format code 'f' for object of type 'str'
+2025-12-10 06:59:48,829 - utils.logger - INFO - Logging setup completed
+2025-12-10 06:59:48,842 - utils.logger - INFO - Anomaly Detection Pipeline initialized
+2025-12-10 06:59:48,844 - utils.logger - INFO - Starting anomaly detection pipeline...
+2025-12-10 06:59:48,844 - utils.logger - INFO - Step 1: Loading data...
+2025-12-10 06:59:48,907 - data.load_data - INFO - Loaded data shape: (10000, 4), Labels shape: (10000,)
+2025-12-10 06:59:48,917 - data.load_data - INFO - Anomaly percentage: 2.35%
+2025-12-10 06:59:48,918 - utils.logger - INFO - Step 2: Preprocessing data...
+2025-12-10 06:59:48,918 - data.preprocessor - INFO - Starting preprocessing pipeline...
+2025-12-10 06:59:48,921 - data.preprocessor - INFO - Handled 4.95% missing values using forward_fill
+2025-12-10 06:59:48,945 - data.preprocessor - INFO - Applied IQR-based outlier handling
+2025-12-10 06:59:48,958 - data.preprocessor - INFO - Scaled features using standard scaling
+2025-12-10 06:59:48,960 - data.preprocessor - WARNING - Found NaN values in labels. Filling with 0 (normal).
+2025-12-10 06:59:48,961 - data.preprocessor - INFO - Preprocessing pipeline completed
+2025-12-10 06:59:48,961 - utils.logger - INFO - Step 3: Splitting data...
+2025-12-10 06:59:48,963 - data.load_data - INFO - Train shape: (8000, 4), Test shape: (2000, 4)
+2025-12-10 06:59:48,963 - utils.logger - INFO - Step 4: Engineering features...
+2025-12-10 06:59:48,964 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-10 06:59:49,155 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-10 06:59:49,179 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-10 06:59:49,210 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-10 07:00:22,714 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-10 07:00:22,730 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-10 07:00:22,812 - features.feature_engineering - INFO - Total features created: 167
+2025-12-10 07:00:22,815 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (8000, 167)
+2025-12-10 07:00:22,817 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-10 07:00:22,906 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-10 07:00:22,913 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-10 07:00:22,946 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-10 07:00:31,636 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-10 07:00:31,665 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-10 07:00:31,696 - features.feature_engineering - INFO - Total features created: 167
+2025-12-10 07:00:31,700 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (2000, 167)
+2025-12-10 07:00:31,708 - utils.logger - INFO - Step 5: Training and evaluating models...
+2025-12-10 07:00:31,711 - utils.logger - INFO - Training Isolation Forest...
+2025-12-10 07:00:31,744 - models.isolation_forest_model - INFO - Training Isolation Forest model...
+2025-12-10 07:00:32,877 - models.isolation_forest_model - INFO - Isolation Forest training completed. Threshold: -0.1450
+2025-12-10 07:00:33,037 - utils.logger - INFO - Training LSTM Autoencoder...
+2025-12-10 07:00:33,039 - models.lstm_autoencoder - INFO - Training LSTM Autoencoder model...
+2025-12-10 07:00:33,052 - models.lstm_autoencoder - INFO - Created sequences of shape: (7991, 10, 4)
+2025-12-10 07:07:37,297 - models.lstm_autoencoder - INFO - LSTM Autoencoder training completed. Threshold: 0.1110
+2025-12-10 07:07:37,298 - models.lstm_autoencoder - INFO - Final training loss: 0.0741
+2025-12-10 07:07:38,710 - utils.logger - INFO - Step 6: Evaluating models...
+2025-12-10 07:07:38,721 - evaluation.evaluator - WARNING - Only one class present in y_true (classes: [0.], counts: {np.float64(0.0): np.int64(2000)}). Cannot calculate ROC AUC.
+2025-12-10 07:07:38,722 - evaluation.evaluator - INFO - Isolation Forest Metrics:
+2025-12-10 07:07:38,723 - evaluation.evaluator - INFO -   precision: 0.0000
+2025-12-10 07:07:38,723 - evaluation.evaluator - INFO -   recall: 0.0000
+2025-12-10 07:07:38,724 - evaluation.evaluator - INFO -   f1: 0.0000
+2025-12-10 07:07:38,724 - evaluation.evaluator - INFO -   accuracy: 0.9995
+2025-12-10 07:07:38,725 - evaluation.evaluator - INFO -   false_positive_rate: 0.0005
+2025-12-10 07:07:38,725 - evaluation.evaluator - INFO -   false_negative_rate: 0.0000
+2025-12-10 07:07:38,725 - evaluation.evaluator - INFO -   roc_auc: 0.0000
+2025-12-10 07:07:38,726 - evaluation.evaluator - INFO -   average_precision: 0.0000
+2025-12-10 07:07:38,726 - utils.logger - INFO - Test set has no anomalies. Calculating ROC AUC on training set for Isolation Forest...
+2025-12-10 07:07:38,983 - utils.logger - INFO - Isolation Forest ROC AUC (training set): 0.9664
+2025-12-10 07:07:38,993 - utils.logger - ERROR - Pipeline failed with error: not enough values to unpack (expected 4, got 1)
+Traceback (most recent call last):
+  File "C:\Users\user\Desktop\Surya Project\Tsworks Assignment\Time series anomaly detection\main.py", line 137, in run
+    lstm_metrics = self.evaluator.calculate_metrics(
+  File "C:\Users\user\Desktop\Surya Project\Tsworks Assignment\Time series anomaly detection\evaluation\evaluator.py", line 72, in calculate_metrics
+    tn, fp, fn, tp = cm.ravel()
+ValueError: not enough values to unpack (expected 4, got 1)
+2025-12-10 07:09:10,336 - utils.logger - INFO - Logging setup completed
+2025-12-10 07:09:10,345 - utils.logger - INFO - Anomaly Detection Pipeline initialized
+2025-12-10 07:09:10,346 - utils.logger - INFO - Starting anomaly detection pipeline...
+2025-12-10 07:09:10,347 - utils.logger - INFO - Step 1: Loading data...
+2025-12-10 07:09:10,405 - data.load_data - INFO - Loaded data shape: (10000, 4), Labels shape: (10000,)
+2025-12-10 07:09:10,406 - data.load_data - INFO - Anomaly percentage: 2.35%
+2025-12-10 07:09:10,407 - utils.logger - INFO - Step 2: Preprocessing data...
+2025-12-10 07:09:10,407 - data.preprocessor - INFO - Starting preprocessing pipeline...
+2025-12-10 07:09:10,410 - data.preprocessor - INFO - Handled 4.95% missing values using forward_fill
+2025-12-10 07:09:10,439 - data.preprocessor - INFO - Applied IQR-based outlier handling
+2025-12-10 07:09:10,446 - data.preprocessor - INFO - Scaled features using standard scaling
+2025-12-10 07:09:10,448 - data.preprocessor - WARNING - Found NaN values in labels. Filling with 0 (normal).
+2025-12-10 07:09:10,452 - data.preprocessor - INFO - Preprocessing pipeline completed
+2025-12-10 07:09:10,453 - utils.logger - INFO - Step 3: Splitting data...
+2025-12-10 07:09:10,454 - data.load_data - INFO - Train shape: (8000, 4), Test shape: (2000, 4)
+2025-12-10 07:09:10,454 - utils.logger - INFO - Step 4: Engineering features...
+2025-12-10 07:09:10,455 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-10 07:09:10,594 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-10 07:09:10,612 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-10 07:09:10,643 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-10 07:09:35,257 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-10 07:09:35,278 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-10 07:09:35,335 - features.feature_engineering - INFO - Total features created: 167
+2025-12-10 07:09:35,336 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (8000, 167)
+2025-12-10 07:09:35,338 - features.feature_engineering - INFO - Starting feature engineering pipeline...
+2025-12-10 07:09:35,392 - features.feature_engineering - INFO - Created 60 rolling features
+2025-12-10 07:09:35,406 - features.feature_engineering - INFO - Created 48 difference features
+2025-12-10 07:09:35,425 - features.feature_engineering - INFO - Created 20 statistical features
+2025-12-10 07:09:40,020 - features.feature_engineering - INFO - Created 12 spectral features
+2025-12-10 07:09:40,036 - features.feature_engineering - INFO - Created 23 cross-sensor features
+2025-12-10 07:09:40,059 - features.feature_engineering - INFO - Total features created: 167
+2025-12-10 07:09:40,059 - features.feature_engineering - INFO - Feature engineering completed. Final shape: (2000, 167)
+2025-12-10 07:09:40,061 - utils.logger - INFO - Step 5: Training and evaluating models...
+2025-12-10 07:09:40,062 - utils.logger - INFO - Training Isolation Forest...
+2025-12-10 07:09:40,073 - models.isolation_forest_model - INFO - Training Isolation Forest model...
+2025-12-10 07:09:40,584 - models.isolation_forest_model - INFO - Isolation Forest training completed. Threshold: -0.1450
+2025-12-10 07:09:40,659 - utils.logger - INFO - Training LSTM Autoencoder...
+2025-12-10 07:09:40,659 - models.lstm_autoencoder - INFO - Training LSTM Autoencoder model...
+2025-12-10 07:09:40,659 - models.lstm_autoencoder - INFO - Created sequences of shape: (7991, 10, 4)
+2025-12-10 07:16:59,770 - models.lstm_autoencoder - INFO - LSTM Autoencoder training completed. Threshold: 0.2477
+2025-12-10 07:16:59,770 - models.lstm_autoencoder - INFO - Final training loss: 0.1454
+2025-12-10 07:17:01,055 - utils.logger - INFO - Step 6: Evaluating models...
+2025-12-10 07:17:01,086 - evaluation.evaluator - WARNING - Only one class present in y_true (classes: [0.], counts: {np.float64(0.0): np.int64(2000)}). Cannot calculate ROC AUC.
+2025-12-10 07:17:01,086 - evaluation.evaluator - INFO - Isolation Forest Metrics:
+2025-12-10 07:17:01,087 - evaluation.evaluator - INFO -   precision: 0.0000
+2025-12-10 07:17:01,088 - evaluation.evaluator - INFO -   recall: 0.0000
+2025-12-10 07:17:01,088 - evaluation.evaluator - INFO -   f1: 0.0000
+2025-12-10 07:17:01,088 - evaluation.evaluator - INFO -   accuracy: 0.9995
+2025-12-10 07:17:01,088 - evaluation.evaluator - INFO -   false_positive_rate: 0.0005
+2025-12-10 07:17:01,088 - evaluation.evaluator - INFO -   false_negative_rate: 0.0000
+2025-12-10 07:17:01,088 - evaluation.evaluator - INFO -   roc_auc: 0.0000
+2025-12-10 07:17:01,088 - evaluation.evaluator - INFO -   average_precision: 0.0000
+2025-12-10 07:17:01,094 - utils.logger - INFO - Test set has no anomalies. Calculating ROC AUC on training set for Isolation Forest...
+2025-12-10 07:17:01,353 - utils.logger - INFO - Isolation Forest ROC AUC (training set): 0.9664
+2025-12-10 07:17:01,385 - evaluation.evaluator - WARNING - Only one class present in y_true (classes: [0.], counts: {np.float64(0.0): np.int64(2000)}). Cannot calculate ROC AUC.
+2025-12-10 07:17:01,386 - evaluation.evaluator - INFO - LSTM Autoencoder Metrics:
+2025-12-10 07:17:01,386 - evaluation.evaluator - INFO -   precision: 0.0000
+2025-12-10 07:17:01,387 - evaluation.evaluator - INFO -   recall: 0.0000
+2025-12-10 07:17:01,387 - evaluation.evaluator - INFO -   f1: 0.0000
+2025-12-10 07:17:01,388 - evaluation.evaluator - INFO -   accuracy: 0.9825
+2025-12-10 07:17:01,388 - evaluation.evaluator - INFO -   false_positive_rate: 0.0175
+2025-12-10 07:17:01,389 - evaluation.evaluator - INFO -   false_negative_rate: 0.0000
+2025-12-10 07:17:01,389 - evaluation.evaluator - INFO -   roc_auc: 0.0000
+2025-12-10 07:17:01,390 - evaluation.evaluator - INFO -   average_precision: 0.0000
+2025-12-10 07:17:01,391 - utils.logger - INFO - Test set has no anomalies. Calculating ROC AUC on training set for LSTM Autoencoder...
+2025-12-10 07:17:06,151 - utils.logger - INFO - LSTM Autoencoder ROC AUC (training set): 0.3813
+2025-12-10 07:17:06,151 - utils.logger - INFO - Step 7: Generating visualizations...
+2025-12-10 07:17:20,013 - evaluation.evaluator - INFO - Anomaly timeline saved to visualizations/iso_forest_anomalies.png
+2025-12-10 07:17:27,951 - evaluation.evaluator - INFO - Anomaly timeline saved to visualizations/lstm_ae_anomalies.png
+2025-12-10 07:17:35,031 - evaluation.evaluator - INFO - Confusion matrix saved to visualizations/iso_forest_cm.png
+2025-12-10 07:17:38,459 - evaluation.evaluator - INFO - Confusion matrix saved to visualizations/lstm_ae_cm.png
+2025-12-10 07:17:42,700 - evaluation.evaluator - INFO - ROC curve saved to visualizations/iso_forest_roc.png
+2025-12-10 07:17:48,013 - evaluation.evaluator - INFO - ROC curve saved to visualizations/lstm_ae_roc.png
+2025-12-10 07:18:14,407 - utils.logger - INFO - Step 8: Generating final report...
+2025-12-10 07:18:14,433 - evaluation.evaluator - INFO - 
+Model Comparison:
+2025-12-10 07:18:14,455 - evaluation.evaluator - INFO - 
+              Model  precision  recall   f1  accuracy  false_positive_rate  false_negative_rate   roc_auc  average_precision roc_auc_source  f1_rank  roc_auc_rank
+0  isolation_forest        0.0     0.0  0.0    0.9995               0.0005                    0  0.966379                0.0   training_set      1.5           1.0
+1  lstm_autoencoder        0.0     0.0  0.0    0.9825               0.0175                    0  0.381254                0.0   training_set      1.5           2.0
+2025-12-10 07:18:14,506 - evaluation.evaluator - INFO - Evaluation report saved to reports/evaluation_report.txt
+2025-12-10 07:18:14,508 - utils.logger - INFO - Step 9: Saving results...
+2025-12-10 07:18:14,535 - utils.logger - INFO - Results saved to results
+2025-12-10 07:18:14,536 - utils.logger - INFO - Pipeline completed successfully!
+2025-12-10 07:18:14,554 - utils.logger - WARNING - Test set has 0% anomalies. ROC AUC cannot be calculated on test set.
+2025-12-10 07:18:14,554 - utils.logger - INFO - Consider using stratified split or evaluating on training set for ROC AUC.
+2025-12-10 07:18:14,554 - evaluation.evaluator - INFO - 
+Model Comparison:
+2025-12-10 07:18:14,581 - evaluation.evaluator - INFO - 
+              Model  precision  recall   f1  accuracy  false_positive_rate  false_negative_rate   roc_auc  average_precision roc_auc_source  f1_rank  roc_auc_rank
+0  isolation_forest        0.0     0.0  0.0    0.9995               0.0005                    0  0.966379                0.0   training_set      1.5           1.0
+1  lstm_autoencoder        0.0     0.0  0.0    0.9825               0.0175                    0  0.381254                0.0   training_set      1.5           2.0

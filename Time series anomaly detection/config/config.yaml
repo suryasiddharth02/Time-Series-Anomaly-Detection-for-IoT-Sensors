@@ -1,0 +1,41 @@
+data:
+  dataset_path: "https://www.kaggle.com/datasets/vinayak123tyagi/bearing-dataset/download"
+  local_path: "./data/bearing_dataset"
+  file_pattern: "*.csv"
+  test_size: 0.2
+  random_state: 42
+
+features:
+  rolling_windows: [10, 30, 60]
+  diff_lags: [1, 2, 3]
+  spectral_features: true
+  cross_sensor_features: true
+  scale_method: "standard"
+
+models:
+  isolation_forest:
+    n_estimators: 100
+    contamination: 0.01
+    max_samples: 0.8
+    random_state: 42
+
+  lstm_autoencoder:
+    sequence_length: 10
+    lstm_units: [64, 32]
+    epochs: 50
+    batch_size: 32
+    learning_rate: 0.001
+    validation_split: 0.1
+
+training:
+  anomaly_threshold_std: 2.0
+  reconstruction_error_window: 10
+
+evaluation:
+  metrics: ["precision", "recall", "f1", "roc_auc"]
+  visualize_results: true
+  save_plots: true
+
+logging:
+  level: "INFO"
+  file: "logs/anomaly_detection.log"
